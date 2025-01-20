@@ -3,18 +3,19 @@
 @section('title', 'Admin Dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto py-6">
-    <h1 class="text-2xl font-semibold mb-4">Welcome to the Admin Dashboard</h1>
-    
-
-    
-    <!-- Logout Button -->
-    <form method="POST" action="{{ route('admin.logout') }}">
-        @csrf
-        <button type="submit" 
-            class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
-            Logout
-        </button>
-    </form>
+<div class="grid grid-cols-3 gap-4">
+    <!-- Example Dashboard Widgets -->
+    <div class="p-6 bg-white shadow-md rounded-md">
+        <h2 class="text-xl font-bold mb-4">Total Revenue</h2>
+        <p class="text-green-600 text-2xl">$203k</p>
+    </div>
+    <div class="p-6 bg-white shadow-md rounded-md">
+        <h2 class="text-xl font-bold mb-4">Average Transaction</h2>
+        <p class="text-blue-600 text-2xl">3.4k</p>
+    </div>
+    <div class="p-6 bg-white shadow-md rounded-md">
+        <h2 class="text-xl font-bold mb-4">Average Footfall</h2>
+        <p class="text-yellow-600 text-2xl">683</p>
+    </div>
 </div>
 @endsection

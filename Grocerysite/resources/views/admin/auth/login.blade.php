@@ -1,8 +1,3 @@
-@extends('layouts.admin')
-
-@section('title', 'Admin Login')
-
-@section('content')
 <div class="max-w-md mx-auto bg-white shadow-lg rounded-lg p-8 mt-10">
     <h1 class="text-2xl font-semibold mb-6 text-center">Admin Login</h1>
 
@@ -40,4 +35,3 @@
         </div>
     </form>
 </div>
-@endsection

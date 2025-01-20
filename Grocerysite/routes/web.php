@@ -60,6 +60,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Admin Dashboard and Protected Routes (requires 'admin' middleware)
     Route::middleware('admin')->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/manage-products', [AdminDashboardController::class, 'manage'])->name('manage-products');
+
+
+        
+        
+        
         
         // Livewire Component for Manage Products
         

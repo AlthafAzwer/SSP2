@@ -12,10 +12,7 @@ class AdminLoginController extends Controller
     {
         return view('admin.auth.login');
     }
-    public function manage()
-    {
-        return view('admin.manageProducts');
-    }
+
 
     public function login(Request $request)
     {

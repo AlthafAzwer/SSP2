@@ -10,4 +10,8 @@ class AdminDashboardController extends Controller
     {
         return view('admin.dashboard');
     }
+    public function manage()
+    {
+        return view('admin.manage-products');
+    }
 }
