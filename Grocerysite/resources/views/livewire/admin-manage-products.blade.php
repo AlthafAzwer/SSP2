@@ -113,7 +113,7 @@
                         <h3 class="text-lg font-bold text-gray-800">{{ $product->name }}</h3>
                         <p class="text-sm text-gray-600">{{ $product->category }}</p>
                         <p class="mt-2 text-gray-600">{{ $product->description }}</p>
-                        <p class="mt-4 text-xl font-bold text-gray-800">${{ number_format($product->price, 2) }}</p>
+                        <p class="mt-4 text-xl font-bold text-gray-800">Rs {{ number_format($product->price, 2) }}</p>
                         <p class="mt-2">
                             <span
                                 class="px-2 py-1 rounded text-sm {{ $product->is_active ? 'bg-green-200 text-green-700' : 'bg-red-200 text-red-700' }}"

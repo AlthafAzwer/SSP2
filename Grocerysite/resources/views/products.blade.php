@@ -1,8 +1,5 @@
-@extends('layouts.app')
-
-@section('title', 'Products')
+@extends('layouts.app') 
 
 @section('content')
-<h2>Products</h2>
-<p>List of products goes here.</p>
+    @livewire('products-listing')
 @endsection

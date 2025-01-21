@@ -21,7 +21,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Products Page Route - Accessible by all users
-Route::get('/products', [ProductsController::class, 'index'])->name('products');
+// User Products Page
+Route::get('/products', \App\Livewire\ProductsListing::class)->name('products');
+
 
 // Contact Page Route - Accessible by all users
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
