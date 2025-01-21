@@ -118,6 +118,16 @@ class AdminManageProducts extends Component
         $this->resetErrorBag(); // Clear validation errors
     }
 
+    public function toggleProductAvailability($id)
+{
+    $product = Product::findOrFail($id);
+    $product->update(['is_active' => !$product->is_active]);
+
+    $this->refreshProducts();
+    session()->flash('message', 'Product availability status updated successfully!');
+}
+
+
     public function render()
     {
         return view('livewire.admin-manage-products');

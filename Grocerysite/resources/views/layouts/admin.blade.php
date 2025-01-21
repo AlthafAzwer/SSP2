@@ -9,8 +9,6 @@
     <!-- Tailwind CSS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    
-
     <!-- Livewire Styles -->
     @livewireStyles
 </head>
@@ -18,16 +16,32 @@
     <div class="min-h-screen flex">
         <!-- Sidebar -->
         <nav class="w-64 bg-gray-800 text-white flex flex-col">
-            <div class="p-4 text-lg font-bold">Admin Portal</div>
-            <ul class="space-y-4 px-4">
-                <li><a href="{{ route('admin.dashboard') }}" class="hover:text-gray-400">Dashboard</a></li>
-                <li><a href="{{ route('admin.manage-products') }}" class="hover:text-gray-400">Manage Products</a></li>
-                <li><a href="#" class="hover:text-gray-400">Manage Users</a></li>
-                <li><a href="#" class="hover:text-gray-400">Manage Orders</a></li>
+            <div class="p-6 text-2xl font-extrabold">Admin Portal</div>
+            <ul class="space-y-2 px-4">
+                <li>
+                    <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-2 px-4 py-2 rounded hover:bg-gray-700">
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.manage-products') }}" class="flex items-center space-x-2 px-4 py-2 rounded hover:bg-gray-700">
+                        <span>Manage Products</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.admin.manage-users') }}" class="flex items-center space-x-2 px-4 py-2 rounded hover:bg-gray-700">
+                        <span>Manage Users</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center space-x-2 px-4 py-2 rounded hover:bg-gray-700">
+                        <span>Manage Orders</span>
+                    </a>
+                </li>
             </ul>
             <form method="POST" action="{{ route('admin.logout') }}" class="mt-auto p-4">
                 @csrf
-                <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">
+                <button type="submit" class="bg-red-600 w-full text-white px-4 py-2 rounded-md hover:bg-red-700">
                     Logout
                 </button>
             </form>
