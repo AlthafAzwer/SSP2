@@ -1,6 +1,5 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  
 
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <!-- FILTERS & SEARCH -->
     <div class="flex flex-col sm:flex-row gap-4 mb-8">
         <!-- Category Filter -->
@@ -21,7 +20,6 @@
                     <option value="Vegetable">Vegetable</option>
                     <option value="Fruit">Fruit</option>
                     <option value="Bakery">Bakery</option>
-                    <!-- Add more categories if you like -->
                 </select>
             </div>
             <button
@@ -174,3 +172,4 @@
         @endforelse
     </div>
 </div>
+

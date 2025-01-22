@@ -1,6 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-   
-    @livewire('products-listing')
+    @livewire('cart-page')
 @endsection

@@ -32,7 +32,7 @@ class ProductsListing extends Component
     }
 
     /**
-     * Helper to store the cart in session
+     * Helper to store the cart in session.
      */
     private function storeCartInSession()
     {
@@ -50,7 +50,7 @@ class ProductsListing extends Component
     }
 
     /**
-     * Fetch products from DB with optional filters
+     * Fetch products from DB with optional filters.
      */
     public function refreshProducts()
     {
@@ -87,11 +87,28 @@ class ProductsListing extends Component
     }
 
     /**
+     * Enforce user login before changing the cart.
+     */
+    private function ensureIsLoggedIn()
+    {
+        if (!\Illuminate\Support\Facades\Auth::check()) {
+            // In Livewire 3, use redirect()->to(...)
+            // Or return redirect()->route('login');
+            return redirect()->route('register');
+        }
+    }
+
+    /**
      * Add product to cart or increment if it exists.
      * Then store cart in session and dispatch 'cartUpdated'.
      */
     public function addToCart($productId)
     {
+        // Check auth
+        if ($response = $this->ensureIsLoggedIn()) {
+            return $response; // redirect to login
+        }
+
         if (!isset($this->cart[$productId])) {
             $this->cart[$productId] = 0;
         }
@@ -108,10 +125,14 @@ class ProductsListing extends Component
      */
     public function increaseQuantity($productId)
     {
+        // Check auth
+        if ($response = $this->ensureIsLoggedIn()) {
+            return $response; // redirect to login
+        }
+
         if (isset($this->cart[$productId])) {
             $this->cart[$productId]++;
             $this->storeCartInSession();
-
             $this->dispatch('cartUpdated', $this->getCartCountProperty());
         }
     }
@@ -121,10 +142,14 @@ class ProductsListing extends Component
      */
     public function decreaseQuantity($productId)
     {
+        // Check auth
+        if ($response = $this->ensureIsLoggedIn()) {
+            return $response; // redirect to login
+        }
+
         if (isset($this->cart[$productId]) && $this->cart[$productId] > 1) {
             $this->cart[$productId]--;
             $this->storeCartInSession();
-
             $this->dispatch('cartUpdated', $this->getCartCountProperty());
         }
     }
@@ -135,6 +160,11 @@ class ProductsListing extends Component
      */
     public function removeFromCart($productId)
     {
+        // Check auth
+        if ($response = $this->ensureIsLoggedIn()) {
+            return $response; // redirect to login
+        }
+
         if (isset($this->cart[$productId])) {
             unset($this->cart[$productId]);
             $this->storeCartInSession();

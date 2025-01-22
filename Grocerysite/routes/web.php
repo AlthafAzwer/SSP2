@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Livewire\AdminManageProducts; // Correct namespace for Livewire component
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 
 
 /*
@@ -22,7 +24,24 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Products Page Route - Accessible by all users
 // User Products Page
-Route::get('/products', \App\Livewire\ProductsListing::class)->name('products');
+Route::get('/products', App\Livewire\ProductsListing::class)->name('products');
+// Route for Products page
+Route::get('/products', [ProductsController::class, 'index'])->name('products');
+
+Route::get('/cart', App\Livewire\CartPage::class)->name('cart');
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
+
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+Route::post('/checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
+
+
+
+Route::get('/test', function () {
+    return view('test'); // This matches resources/views/test.blade.php
+});
+
+
+
 
 
 // Contact Page Route - Accessible by all users
@@ -62,8 +81,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Admin Dashboard and Protected Routes (requires 'admin' middleware)
     Route::middleware('admin')->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-        Route::get('/manage-users', [AdminDashboardController::class, 'manageUsers'])->name('manage-users');
-        Route::delete('/delete-user/{id}', [AdminDashboardController::class, 'deleteUser'])->name('delete-user');
+        Route::get('/manage-users', [AdminDashboardController::class, 'manageUsers'])->name('admin.manage-users');
+        Route::delete('/delete-user/{id}', [AdminDashboardController::class, 'deleteUser'])->name('admin.delete-user');
+        Route::get('/manage-products', [AdminDashboardController::class, 'manage'])->name('manage-products');
         
 
 
