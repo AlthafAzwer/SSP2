@@ -8,10 +8,32 @@
             </div>
         @endif
 
+<!-- Search Bar -->
+<div class="mb-6 flex items-center space-x-3">
+    <input 
+        type="text" 
+        wire:model.defer="searchTerm" 
+        placeholder="Search products..." 
+        class="border border-gray-300 rounded-md px-4 py-2 w-full sm:w-1/3 text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+    />
+    
+    <!-- Search Button -->
+    <button 
+        wire:click="refreshProducts" 
+        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md flex items-center gap-2 transition"
+    >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5a7 7 0 017 7c0 1.31-.38 2.53-1.03 3.56l4.24 4.24a1 1 0 11-1.41 1.41l-4.24-4.24A6.96 6.96 0 0111 19a7 7 0 110-14z" />
+        </svg>
+        Search
+    </button>
+</div>
+
+
         <!-- Floating Action Button -->
         <button
             wire:click="toggleModal"
-            class="fixed bottom-6 right-6 bg-blue-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-2xl font-bold hover:bg-blue-700 focus:outline-none transform hover:scale-110 transition-transform duration-300"
+            class="fixed bottom-6 right-6 bg-blue-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-2xl font-bold hover:bg-blue-700 focus:outline-none transform hover:scale-110 transition-transform duration-300 z-50"
         >
             +
         </button>

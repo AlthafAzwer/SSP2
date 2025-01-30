@@ -20,6 +20,9 @@
                     <option value="Vegetable">Vegetable</option>
                     <option value="Fruit">Fruit</option>
                     <option value="Bakery">Bakery</option>
+                    <option value="Meat">Meat</option>
+                    <option value="Snacks">Snacks</option>
+                    <option value="Beverages">Beverages</option>
                 </select>
             </div>
             <button

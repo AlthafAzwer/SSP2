@@ -12,8 +12,9 @@ class AdminManageProducts extends Component
 
     public $image, $category, $name, $description, $price, $productId;
     public $products;
-    public $showModal = false; // Tracks the modal visibility
+    public $showModal = false; // Tracks modal visibility
     public $isEditMode = false; // Tracks whether we are editing or adding a product
+    public $searchTerm = ''; // Search field
 
     public function mount()
     {
@@ -22,13 +23,25 @@ class AdminManageProducts extends Component
 
     public function refreshProducts()
     {
-        $this->products = Product::all();
+        $query = Product::query();
+
+        // Apply search filter
+        if (!empty($this->searchTerm)) {
+            $query->where('name', 'like', '%' . $this->searchTerm . '%');
+        }
+
+        $this->products = $query->get();
+    }
+
+    public function updatedSearchTerm()
+    {
+        $this->refreshProducts();
     }
 
     public function toggleModal()
     {
         $this->resetForm();
-        $this->isEditMode = false; // Default to Add mode
+        $this->isEditMode = false;
         $this->showModal = !$this->showModal;
     }
 
@@ -36,15 +49,15 @@ class AdminManageProducts extends Component
     {
         $product = Product::findOrFail($id);
 
-        // Populate form fields with product data
+        // Populate form fields
         $this->productId = $product->id;
         $this->category = $product->category;
         $this->name = $product->name;
         $this->description = $product->description;
         $this->price = $product->price;
 
-        $this->isEditMode = true; // Switch to Edit mode
-        $this->showModal = true; // Open the modal
+        $this->isEditMode = true;
+        $this->showModal = true;
     }
 
     public function addProduct()
@@ -70,7 +83,7 @@ class AdminManageProducts extends Component
 
         $this->resetForm();
         $this->refreshProducts();
-        $this->showModal = false; // Close the modal
+        $this->showModal = false;
         session()->flash('message', 'Product added successfully!');
     }
 
@@ -99,7 +112,7 @@ class AdminManageProducts extends Component
 
         $this->resetForm();
         $this->refreshProducts();
-        $this->showModal = false; // Close the modal
+        $this->showModal = false;
         session()->flash('message', 'Product updated successfully!');
     }
 
@@ -112,21 +125,20 @@ class AdminManageProducts extends Component
         session()->flash('message', 'Product deleted successfully!');
     }
 
+    public function toggleProductAvailability($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->update(['is_active' => !$product->is_active]);
+
+        $this->refreshProducts();
+        session()->flash('message', 'Product availability status updated successfully!');
+    }
+
     private function resetForm()
     {
         $this->reset(['image', 'category', 'name', 'description', 'price', 'productId']);
-        $this->resetErrorBag(); // Clear validation errors
+        $this->resetErrorBag();
     }
-
-    public function toggleProductAvailability($id)
-{
-    $product = Product::findOrFail($id);
-    $product->update(['is_active' => !$product->is_active]);
-
-    $this->refreshProducts();
-    session()->flash('message', 'Product availability status updated successfully!');
-}
-
 
     public function render()
     {

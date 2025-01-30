@@ -8,14 +8,8 @@ use App\Models\Product;
 class ProductsListing extends Component
 {
     public $products = [];
-
-    // Category filter
-    public $selectedCategory = 'all';
-
-    // Search term
+    public $selectedCategory;
     public $searchTerm = '';
-
-    // The cart stored in memory: [ productId => quantity ]
     public $cart = [];
 
     /**
@@ -23,30 +17,13 @@ class ProductsListing extends Component
      */
     public function mount()
     {
+        // Capture category from the URL, default to 'all'
+        $this->selectedCategory = request()->query('category', 'all');
+
         $this->refreshProducts();
 
-        // Load cart from the session if it exists,
-        // otherwise default to empty array.
-        $storedCart = session()->get('cart', []);
-        $this->cart = $storedCart;
-    }
-
-    /**
-     * Helper to store the cart in session.
-     */
-    private function storeCartInSession()
-    {
-        session()->put('cart', $this->cart);
-    }
-
-    /**
-     * A computed property to get the total number
-     * of items in the cart. Livewire 3 allows calling it
-     * with $this->cartCount or in the Blade as {{ $this->cartCount }}.
-     */
-    public function getCartCountProperty()
-    {
-        return array_sum($this->cart);
+        // Load cart from session if exists
+        $this->cart = session()->get('cart', []);
     }
 
     /**
@@ -56,10 +33,12 @@ class ProductsListing extends Component
     {
         $query = Product::query();
 
+        // Apply category filter if it's not 'all'
         if ($this->selectedCategory !== 'all') {
             $query->where('category', $this->selectedCategory);
         }
 
+        // Apply search filter
         if (!empty($this->searchTerm)) {
             $query->where(function ($q) {
                 $q->where('name', 'like', '%' . $this->searchTerm . '%')
@@ -92,21 +71,17 @@ class ProductsListing extends Component
     private function ensureIsLoggedIn()
     {
         if (!\Illuminate\Support\Facades\Auth::check()) {
-            // In Livewire 3, use redirect()->to(...)
-            // Or return redirect()->route('login');
             return redirect()->route('register');
         }
     }
 
     /**
      * Add product to cart or increment if it exists.
-     * Then store cart in session and dispatch 'cartUpdated'.
      */
     public function addToCart($productId)
     {
-        // Check auth
         if ($response = $this->ensureIsLoggedIn()) {
-            return $response; // redirect to login
+            return $response;
         }
 
         if (!isset($this->cart[$productId])) {
@@ -114,9 +89,8 @@ class ProductsListing extends Component
         }
 
         $this->cart[$productId]++;
-        $this->storeCartInSession();
+        session()->put('cart', $this->cart);
 
-        // Livewire 3 uses dispatch instead of emit
         $this->dispatch('cartUpdated', $this->getCartCountProperty());
     }
 
@@ -125,14 +99,13 @@ class ProductsListing extends Component
      */
     public function increaseQuantity($productId)
     {
-        // Check auth
         if ($response = $this->ensureIsLoggedIn()) {
-            return $response; // redirect to login
+            return $response;
         }
 
         if (isset($this->cart[$productId])) {
             $this->cart[$productId]++;
-            $this->storeCartInSession();
+            session()->put('cart', $this->cart);
             $this->dispatch('cartUpdated', $this->getCartCountProperty());
         }
     }
@@ -142,35 +115,40 @@ class ProductsListing extends Component
      */
     public function decreaseQuantity($productId)
     {
-        // Check auth
         if ($response = $this->ensureIsLoggedIn()) {
-            return $response; // redirect to login
+            return $response;
         }
 
         if (isset($this->cart[$productId]) && $this->cart[$productId] > 1) {
             $this->cart[$productId]--;
-            $this->storeCartInSession();
+            session()->put('cart', $this->cart);
             $this->dispatch('cartUpdated', $this->getCartCountProperty());
         }
     }
 
     /**
-     * Remove the product from the cart entirely,
-     * reverting it back to "Add" in the UI.
+     * Remove the product from the cart entirely.
      */
     public function removeFromCart($productId)
     {
-        // Check auth
         if ($response = $this->ensureIsLoggedIn()) {
-            return $response; // redirect to login
+            return $response;
         }
 
         if (isset($this->cart[$productId])) {
             unset($this->cart[$productId]);
-            $this->storeCartInSession();
+            session()->put('cart', $this->cart);
         }
 
         $this->dispatch('cartUpdated', $this->getCartCountProperty());
+    }
+
+    /**
+     * Get the total number of items in the cart.
+     */
+    public function getCartCountProperty()
+    {
+        return array_sum($this->cart);
     }
 
     public function render()
