@@ -64,6 +64,7 @@ class CheckoutController extends Controller
         session()->forget('cart');
 
         // Redirect the user with a success message
-        return redirect()->route('home')->with('success', 'Your order has been placed successfully!');
+        return redirect()->route('user.orders')->with('success', 'Your order has been placed successfully!');
+
     }
 }

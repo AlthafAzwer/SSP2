@@ -4,12 +4,20 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\Query;
 
 class AdminDashboardController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard');
+        return view('admin.dashboard', [
+            'totalUsers' => User::count(), // Fetch total users
+            'totalOrders' => Order::count(), // Fetch total orders
+            'totalProducts' => Product::count(), // Fetch total products
+            'totalQueries' => Query::count() // Fetch total queries
+        ]);
     }
     public function manage()
     {

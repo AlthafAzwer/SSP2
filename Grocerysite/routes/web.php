@@ -11,6 +11,8 @@ use App\Livewire\AdminManageProducts; // Correct namespace for Livewire componen
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\QueryController;
 
 
 /*
@@ -34,7 +36,8 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 Route::post('/checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
 
-
+Route::get('/orders', [OrderController::class, 'userOrders'])->name('user.orders');
+    Route::get('/orders/{id}', [OrderController::class, 'userOrderDetails'])->name('user.orders.show');
 
 Route::get('/test', function () {
     return view('test'); // This matches resources/views/test.blade.php
@@ -45,7 +48,8 @@ Route::get('/test', function () {
 
 
 // Contact Page Route - Accessible by all users
-Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::get('/contact', [ContactController::class, 'showForm'])->name('contact');
+Route::post('/contact', [ContactController::class, 'submitForm'])->name('contact.submit');
 
 // Blog Page Route - Accessible by all users
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
@@ -84,6 +88,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/manage-users', [AdminDashboardController::class, 'manageUsers'])->name('admin.manage-users');
         Route::delete('/delete-user/{id}', [AdminDashboardController::class, 'deleteUser'])->name('admin.delete-user');
         Route::get('/manage-products', [AdminDashboardController::class, 'manage'])->name('manage-products');
+        Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+        Route::post('/orders/{id}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+        Route::delete('/orders/{id}', [OrderController::class, 'deleteOrder'])->name('admin.orders.delete');
+        Route::get('/queries', [QueryController::class, 'index'])->name('admin.queries.index');
+Route::get('/queries/{id}', [QueryController::class, 'show'])->name('admin.queries.show');
+Route::delete('/queries/{id}', [QueryController::class, 'delete'])->name('admin.queries.delete');
+
         
 
 

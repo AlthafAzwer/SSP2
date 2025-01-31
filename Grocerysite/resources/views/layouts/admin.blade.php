@@ -34,17 +34,32 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center space-x-2 px-4 py-2 rounded hover:bg-gray-700">
-                        <span>Manage Orders</span>
-                    </a>
+                    <a href="{{ route('admin.orders.index') }}" class="flex items-center space-x-2 px-4 py-2 rounded hover:bg-gray-700">
+    <span>Manage Orders</span>
+</a>
+
+<a href="{{ route('admin.admin.queries.index') }}" class="flex items-center space-x-2 px-4 py-2 rounded hover:bg-gray-700">
+    <span>Manage Queries</span>
+</a>
+
+
                 </li>
             </ul>
             <form method="POST" action="{{ route('admin.logout') }}" class="mt-auto p-4">
-                @csrf
-                <button type="submit" class="bg-red-600 w-full text-white px-4 py-2 rounded-md hover:bg-red-700">
-                    Logout
-                </button>
-            </form>
+    @csrf
+    <button type="submit" 
+        class="w-full bg-red-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md 
+               hover:bg-red-700 hover:shadow-lg transition duration-300 ease-in-out 
+               flex items-center justify-center space-x-2">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h8.586l-2.293-2.293a1 1 0 111.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 11-1.414-1.414L12.586 11H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+        </svg>
+        
+        <span>Logout</span>
+    </button>
+</form>
+
         </nav>
 
         <!-- Page Content -->

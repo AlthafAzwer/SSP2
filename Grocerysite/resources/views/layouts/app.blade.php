@@ -67,15 +67,30 @@
                                     href="{{ route('blog') }}"
                                     class="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium"
                                 >
-                                    Blog
+                                    Reviews
                                 </a>
+
+
+
                             </div>
                         </div>
+
+                        
 
                         <!-- RIGHT: Cart Icon + Auth Links -->
                         <div class="flex items-center space-x-6">
                             <!-- Cart Icon Component -->
                             @livewire('cart-icon')
+
+                            <a 
+    href="{{ route('user.orders') }}" 
+    class="flex items-center text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium"
+>
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v2H2V5zm16 4H2v6a2 2 0 002 2h12a2 2 0 002-2V9zM6 12a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+    </svg>
+    My Orders
+</a>
 
                             <!-- Auth Links -->
                             @auth
