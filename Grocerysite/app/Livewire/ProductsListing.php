@@ -3,42 +3,48 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\Product;
 
 class ProductsListing extends Component
 {
-    public $products = [];
+    use WithPagination;
+
     public $selectedCategory;
     public $searchTerm = '';
     public $cart = [];
 
-    /**
-     * Runs when the component is first mounted (page load).
-     */
+    protected $paginationTheme = 'tailwind';
+
     public function mount()
     {
-        // Capture category from the URL, default to 'all'
         $this->selectedCategory = request()->query('category', 'all');
-
-        $this->refreshProducts();
-
-        // Load cart from session if exists
         $this->cart = session()->get('cart', []);
     }
 
-    /**
-     * Fetch products from DB with optional filters.
-     */
+    public function updatingSearchTerm()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSelectedCategory()
+    {
+        $this->resetPage();
+    }
+
     public function refreshProducts()
+    {
+        $this->resetPage();
+    }
+
+    public function getProductsProperty()
     {
         $query = Product::query();
 
-        // Apply category filter if it's not 'all'
         if ($this->selectedCategory !== 'all') {
             $query->where('category', $this->selectedCategory);
         }
 
-        // Apply search filter
         if (!empty($this->searchTerm)) {
             $query->where(function ($q) {
                 $q->where('name', 'like', '%' . $this->searchTerm . '%')
@@ -46,28 +52,9 @@ class ProductsListing extends Component
             });
         }
 
-        $this->products = $query->get();
+        return $query->paginate(6);
     }
 
-    /**
-     * If $selectedCategory changes, re-fetch products.
-     */
-    public function updatedSelectedCategory()
-    {
-        $this->refreshProducts();
-    }
-
-    /**
-     * If $searchTerm changes, re-fetch products.
-     */
-    public function updatedSearchTerm()
-    {
-        $this->refreshProducts();
-    }
-
-    /**
-     * Enforce user login before changing the cart.
-     */
     private function ensureIsLoggedIn()
     {
         if (!\Illuminate\Support\Facades\Auth::check()) {
@@ -75,9 +62,6 @@ class ProductsListing extends Component
         }
     }
 
-    /**
-     * Add product to cart or increment if it exists.
-     */
     public function addToCart($productId)
     {
         if ($response = $this->ensureIsLoggedIn()) {
@@ -94,9 +78,6 @@ class ProductsListing extends Component
         $this->dispatch('cartUpdated', $this->getCartCountProperty());
     }
 
-    /**
-     * Increase quantity by 1
-     */
     public function increaseQuantity($productId)
     {
         if ($response = $this->ensureIsLoggedIn()) {
@@ -110,9 +91,6 @@ class ProductsListing extends Component
         }
     }
 
-    /**
-     * Decrease quantity but never below 1
-     */
     public function decreaseQuantity($productId)
     {
         if ($response = $this->ensureIsLoggedIn()) {
@@ -126,9 +104,6 @@ class ProductsListing extends Component
         }
     }
 
-    /**
-     * Remove the product from the cart entirely.
-     */
     public function removeFromCart($productId)
     {
         if ($response = $this->ensureIsLoggedIn()) {
@@ -143,9 +118,6 @@ class ProductsListing extends Component
         $this->dispatch('cartUpdated', $this->getCartCountProperty());
     }
 
-    /**
-     * Get the total number of items in the cart.
-     */
     public function getCartCountProperty()
     {
         return array_sum($this->cart);
@@ -153,6 +125,8 @@ class ProductsListing extends Component
 
     public function render()
     {
-        return view('livewire.products-listing');
+        return view('livewire.products-listing', [
+            'products' => $this->products,
+        ]);
     }
 }
