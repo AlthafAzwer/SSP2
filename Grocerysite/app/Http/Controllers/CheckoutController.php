@@ -25,7 +25,7 @@ class CheckoutController extends Controller
      */
     public function placeOrder(Request $request)
     {
-        // Validate the form input
+        
         $validated = $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -42,10 +42,10 @@ class CheckoutController extends Controller
             'card_cvv' => 'nullable|required_if:payment_method,card',
         ]);
 
-        // Get the cart data from the session
+        
         $cart = session()->get('cart', []);
 
-        // Save the order to the database
+        
         Order::create([
             'first_name' => $validated['first_name'],
             'last_name' => $validated['last_name'],
@@ -56,14 +56,14 @@ class CheckoutController extends Controller
             'country' => $validated['country'],
             'zip' => $validated['zip'],
             'payment_method' => $validated['payment_method'],
-            'status' => 'pending', // Default order status
-            'cart' => json_encode($cart), // Save cart as JSON
+            'status' => 'pending', 
+            'cart' => json_encode($cart), 
         ]);
 
-        // Clear the cart from the session
+        
         session()->forget('cart');
 
-        // Redirect the user with a success message
+        
         return redirect()->route('user.orders')->with('success', 'Your order has been placed successfully!');
 
     }

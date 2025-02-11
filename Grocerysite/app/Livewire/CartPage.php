@@ -11,7 +11,7 @@ class CartPage extends Component
 
     public function mount()
     {
-        // Load the cart from the session or set it as empty
+        
         $this->cart = session()->get('cart', []);
         $this->updateTotal();
     }

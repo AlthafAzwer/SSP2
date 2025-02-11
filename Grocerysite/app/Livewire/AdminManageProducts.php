@@ -12,9 +12,9 @@ class AdminManageProducts extends Component
 
     public $image, $category, $name, $description, $price, $productId;
     public $products;
-    public $showModal = false; // Tracks modal visibility
-    public $isEditMode = false; // Tracks whether we are editing or adding a product
-    public $searchTerm = ''; // Search field
+    public $showModal = false; 
+    public $isEditMode = false; 
+    public $searchTerm = ''; 
 
     public function mount()
     {
@@ -25,7 +25,7 @@ class AdminManageProducts extends Component
     {
         $query = Product::query();
 
-        // Apply search filter
+        
         if (!empty($this->searchTerm)) {
             $query->where('name', 'like', '%' . $this->searchTerm . '%');
         }
@@ -49,7 +49,7 @@ class AdminManageProducts extends Component
     {
         $product = Product::findOrFail($id);
 
-        // Populate form fields
+        
         $this->productId = $product->id;
         $this->category = $product->category;
         $this->name = $product->name;

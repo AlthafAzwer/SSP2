@@ -10,28 +10,24 @@ class ProductController extends Controller
 {
     public function index()
     {
-        // Fetch only active products if you have an 'is_active' flag
         $products = Product::where('is_active', true)->get();
 
-        // Return JSON data
+        
         return response()->json($products, 200);
     }
 
     public function store(Request $request)
     {
-        // Validate the request including file upload
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
             'category' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
         ]);
 
-        // Store the uploaded file in 'storage/app/public/products'
         $imagePath = $request->file('image')->store('products', 'public');
 
-        // Create the product record in the database
         $product = Product::create([
             'image' => $imagePath,
             'category' => $request->category,
@@ -45,14 +41,12 @@ class ProductController extends Controller
     }
 
 
-    // GET /api/products/{id}
     public function show($id)
     {
         $product = Product::findOrFail($id);
         return response()->json($product, 200);
     }
 
-    // PUT or PATCH /api/products/{id}
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
@@ -71,7 +65,6 @@ class ProductController extends Controller
         return response()->json($product, 200);
     }
 
-    // DELETE /api/products/{id}
     public function destroy($id)
     {
         $product = Product::findOrFail($id);

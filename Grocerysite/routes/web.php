@@ -7,7 +7,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\AdminDashboardController;
-use App\Livewire\AdminManageProducts; // Correct namespace for Livewire component
+use App\Livewire\AdminManageProducts; 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -15,11 +15,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\QueryController;
 
 
-/*
-|--------------------------------------------------------------------------
-| User Routes
-|--------------------------------------------------------------------------
-*/
+
 
 // Home Page Route - Accessible by all users
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -40,7 +36,7 @@ Route::get('/orders', [OrderController::class, 'userOrders'])->name('user.orders
     Route::get('/orders/{id}', [OrderController::class, 'userOrderDetails'])->name('user.orders.show');
 
 Route::get('/test', function () {
-    return view('test'); // This matches resources/views/test.blade.php
+    return view('test'); 
 });
 
 
@@ -105,7 +101,7 @@ Route::delete('/queries/{id}', [QueryController::class, 'delete'])->name('admin.
         
         
         
-        // Livewire Component for Manage Products
+        
         
     });
 });

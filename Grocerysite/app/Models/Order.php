@@ -24,6 +24,6 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'cart' => 'array', // Automatically decode JSON cart to an array
+        'cart' => 'array', 
     ];
 }

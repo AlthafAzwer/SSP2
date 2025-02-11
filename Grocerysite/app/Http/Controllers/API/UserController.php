@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    /**
-     * Get authenticated user details.
-     */
+
     public function profile(Request $request)
     {
         return response()->json([

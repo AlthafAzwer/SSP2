@@ -3,32 +3,29 @@
 @section('title', 'Home Page')
 
 @section('content')
-    <!-- Retrieve 3 random products in the Blade, so we have $featuredProducts -->
+
     @php
         $featuredProducts = \App\Models\Product::inRandomOrder()->take(3)->get();
     @endphp
 
-    <!-- Hero / Banner Section -->
+
     <section class="relative h-[500px] flex items-center justify-center shadow-md">
     <img
         class="absolute inset-0 h-full w-full object-cover"
         src="{{ asset('images/heroes.jpg') }}"
         alt="GroceriFy Banner"
     />
-    <!-- Dark Overlay -->
-    
 
-    <!-- Centered Hero Text -->
 
 </section>
 
 
 
-<!-- Browse by Category -->
+
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <h2 class="text-3xl font-bold text-center mb-8">Browse by Category</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <!-- Vegetables -->
+
         <a href="{{ route('products', ['category' => 'Vegetable']) }}"
            class="relative group overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
             <img src="{{ asset('images/vege.jpg') }}" alt="Vegetables"
@@ -38,7 +35,7 @@
             </div>
         </a>
 
-        <!-- Fruits -->
+
         <a href="{{ route('products', ['category' => 'Fruit']) }}"
            class="relative group overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
             <img src="{{ asset('images/fruits.jpg') }}" alt="Fruits"
@@ -48,7 +45,7 @@
             </div>
         </a>
 
-        <!-- Dairy -->
+
         <a href="{{ route('products', ['category' => 'Bakery']) }}"
            class="relative group overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
             <img src="{{ asset('images/bake.jpg') }}" alt="Bakery"
@@ -58,7 +55,7 @@
             </div>
         </a>
 
-        <!-- Meat -->
+
         <a href="{{ route('products', ['category' => 'Meat']) }}"
            class="relative group overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
             <img src="{{ asset('images/meat.jpg') }}" alt="Meat"
@@ -101,7 +98,7 @@
             Featured Products
         </h2>
 
-        <!-- Display 3 random products -->
+
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             @foreach($featuredProducts as $product)
                 <div class="bg-white rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 p-5 flex flex-col">

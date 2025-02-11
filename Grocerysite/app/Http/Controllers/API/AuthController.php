@@ -10,9 +10,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    /**
-     * Register a new user and return a token.
-     */
+
     public function register(Request $request)
     {
         $request->validate([
@@ -27,18 +25,16 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Create Sanctum token
+        
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
             'user' => $user,
-            'token' => $token, // ✅ Return the token to the user
+            'token' => $token, 
         ], 201);
     }
 
-    /**
-     * Login User and return a token.
-     */
+
     public function login(Request $request)
     {
         $request->validate([
@@ -50,15 +46,15 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
     
-        // ✅ Get user directly from the database
+        
         $user = User::where('email', $request->email)->first();
     
-        // ✅ Ensure a user is found before calling createToken()
+        
         if (!$user) {
             return response()->json(['message' => 'User not found'], 404);
         }
     
-        // ✅ Generate token
+        
         $token = $user->createToken('api-token')->plainTextToken;
     
         return response()->json([
@@ -68,9 +64,6 @@ class AuthController extends Controller
     }
     
 
-    /**
-     * Logout user (invalidate token).
-     */
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();

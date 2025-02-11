@@ -9,35 +9,29 @@ use App\Models\Product;
 
 class OrderController extends Controller
 {
-    /**
-     * Show all orders to the admin.
-     */
+
     public function index()
     {
         $orders = Order::latest()->get(); // Fetch all orders, latest first
         return view('admin.orders.index', compact('orders'));
     }
 
-    /**
-     * Show details of a specific order.
-     */
+
     public function show($id)
     {
         $order = Order::findOrFail($id);
         
-        // Decode the cart
+        
         $cartItems = json_decode($order->cart, true);
         
-        // Get product details
+        
         $products = Product::whereIn('id', array_keys($cartItems))->get()->keyBy('id');
     
         return view('admin.orders.show', compact('order', 'cartItems', 'products'));
     }
     
 
-    /**
-     * Update the order status (Admin functionality).
-     */
+
     public function updateStatus(Request $request, $id)
     {
         $order = Order::findOrFail($id);
@@ -46,9 +40,7 @@ class OrderController extends Controller
         return back()->with('success', 'Order status updated successfully!');
     }
 
-    /**
-     * Show the user's order history.
-     */
+ 
     public function userOrders()
     {
         if (!Auth::check()) {
@@ -59,9 +51,7 @@ class OrderController extends Controller
         return view('user.orders.index', compact('orders'));
     }
 
-    /**
-     * Show a user's specific order details.
-     */
+
 
 
      public function userOrderDetails($id)
@@ -70,10 +60,10 @@ class OrderController extends Controller
                        ->where('email', Auth::user()->email)
                        ->firstOrFail();
      
-         // Decode the cart
+         
          $cartItems = json_decode($order->cart, true);
      
-         // Get product details
+         
          $products = Product::whereIn('id', array_keys($cartItems))->get()->keyBy('id');
      
          return view('user.orders.show', compact('order', 'cartItems', 'products'));

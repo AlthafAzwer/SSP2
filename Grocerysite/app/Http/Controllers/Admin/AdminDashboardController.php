@@ -13,10 +13,10 @@ class AdminDashboardController extends Controller
     public function index()
     {
         return view('admin.dashboard', [
-            'totalUsers' => User::count(), // Fetch total users
-            'totalOrders' => Order::count(), // Fetch total orders
-            'totalProducts' => Product::count(), // Fetch total products
-            'totalQueries' => Query::count() // Fetch total queries
+            'totalUsers' => User::count(), 
+            'totalOrders' => Order::count(), 
+            'totalProducts' => Product::count(), 
+            'totalQueries' => Query::count() 
         ]);
     }
     public function manage()
@@ -26,17 +26,17 @@ class AdminDashboardController extends Controller
 
     public function manageUsers()
     {
-        $users = User::all(); // Fetch all users
+        $users = User::all(); 
         return view('admin.manage-users', compact('users'));
     }
 
     public function deleteUser($id)
     {
-        // Find the user by ID and delete
+        
         $user = User::findOrFail($id);
         $user->delete();
     
-        // Redirect back to the manage users page with a success message
+       
         return redirect()->route('admin.admin.manage-users')->with('message', 'User deleted successfully!');
     }
     
